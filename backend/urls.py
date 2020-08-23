@@ -47,6 +47,9 @@ def populate(request):
     b.notes.add(models.Note.objects.create(info=fake.sentence()))
     return HttpResponse("done")
 
+def get_item_count(request):
+    return HttpResponse(models.Item.objects.count())
+
 def get_item(request, iid):
     i = models.Item.objects.get(id=iid)
     item = json.dumps(i.dict())
@@ -77,6 +80,9 @@ def get_item_all(request, iid):
     item = json.dumps(item)
     return HttpResponse(item)
 
+def get_person_count(request):
+    return HttpResponse(models.Person.objects.count())
+
 def get_person(request, uid):
     p = models.Person.objects.get(id=uid)
     person = json.dumps(p.dict())
@@ -106,10 +112,12 @@ def index(request):
 
 urlpatterns = [
     path('populate', populate),
+    path('item', get_item_count),
     path('item/<iid>', get_item),
     path('item/<iid>/notes', get_item_notes),
     path('item/<iid>/history', get_item_history),
     path('item/<iid>/all', get_item_all),
+    path('person', get_person_count),
     path('person/<uid>', get_person),
     path('person/<uid>/notes', get_person_notes),
     path('person/<uid>/flags', get_person_flags),

@@ -59,10 +59,11 @@ class Move(HistoryItem):
     end_place = models.CharField(max_length=100)
     def dict(self):
         return {
-            'start_time': self.start_time,
-            'end_time': self.end_time,
+            'start_time': str(self.start_time),
+            'end_time': str(self.end_time),
             'start_place': self.start_place,
-            'end_place': self.end_place
+            'end_place': self.end_place,
+            'notes': [n.dict() for n in self.notes.all()]
         }
 
 # Range of time item is in use, who came into contact with it
@@ -71,10 +72,11 @@ class Use(HistoryItem):
     people = models.ManyToManyField(Person)
     def dict(self):
         return {
-            'start_time': self.start_time,
-            'end_time': self.end_time,
+            'start_time': str(self.start_time),
+            'end_time': str(self.end_time),
             'location': self.location,
-            'people': self.people
+            'people': [p.uid for p in self.people.all()],
+            'notes': [n.dict() for n in self.notes.all()]
         }
 
 # Representing a breakage of any kind from start to finish
@@ -82,7 +84,8 @@ class Break(HistoryItem):
     pass
     def dict(self):
         return {
-            'start_time': self.start_time,
-            'end_time': self.end_time
+            'start_time': str(self.start_time),
+            'end_time': str(self.end_time),
+            'notes': [n.dict() for n in self.notes.all()]
         }
 
