@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.conf.urls import url
+#from django.conf.urls import url
 from django.urls import path
 
 from . import models
@@ -59,7 +59,23 @@ def get_item_notes(request, iid):
 
 def get_item_history(request, iid):
     item = models.Item.objects.get(id=iid)
-    return HttpResponse(iid + "history")
+    h = []
+    h += [m.dict() for m in models.Move.objects.filter(item=item)]
+    h += [u.dict() for u in models.Use.objects.filter(item=item)]
+    h += [b.dict() for b in models.Break.objects.filter(item=item)]
+    history = json.dumps(h)
+    return HttpResponse(history)
+
+def get_item_all(request, iid):
+    i = models.Item.objects.get(id=iid)
+    item = i.dict()
+    item['notes'] = [n.dict() for n in i.notes.all()]
+    item['history'] = []
+    item['history'] += [m.dict() for m in models.Move.objects.filter(item=i)]
+    item['history'] += [u.dict() for u in models.Use.objects.filter(item=i)]
+    item['history'] += [b.dict() for b in models.Break.objects.filter(item=i)]
+    item = json.dumps(item)
+    return HttpResponse(item)
 
 def get_person(request, uid):
     p = models.Person.objects.get(id=uid)
@@ -77,6 +93,14 @@ def get_person_flags(request, uid):
     flag_list = json.dumps([f.dict() for f in flags])
     return HttpResponse(flag_list)
 
+def get_person_all(request, uid):
+    p = models.Person.objects.get(id=uid)
+    person = p.dict()
+    person['notes'] = [n.dict() for n in p.notes.all()]
+    person['flags'] = [f.dict() for f in models.Flag.objects.filter(patient=p)]
+    person = json.dumps(person)
+    return HttpResponse(person)
+
 def index(request):
     return HttpResponse("API page")
 
@@ -85,8 +109,10 @@ urlpatterns = [
     path('item/<iid>', get_item),
     path('item/<iid>/notes', get_item_notes),
     path('item/<iid>/history', get_item_history),
+    path('item/<iid>/all', get_item_all),
     path('person/<uid>', get_person),
     path('person/<uid>/notes', get_person_notes),
     path('person/<uid>/flags', get_person_flags),
-    url('', index),
+    path('person/<uid>/all', get_person_all),
+    path('', index),
 ]
