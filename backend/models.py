@@ -19,6 +19,7 @@ class Item(models.Model):
     status = models.CharField(max_length=100)
     def dict(self):
         return {
+            'id': self.id,
             'name': self.name,
             'description': self.description,
             'location': self.location,
@@ -31,7 +32,8 @@ class Person(models.Model):
     notes = models.ManyToManyField(Note)
     def dict(self):
         return {
-            'uid': self.uid
+            'id': self.id,
+            'uuid': self.uid
         }
 
 # Something like "covid positive"
@@ -40,8 +42,10 @@ class Flag(Note):
     patient = models.ForeignKey(Person, on_delete=models.CASCADE)
     def dict(self):
         return {
+            'time': str(self.time),
             'flag': self.diagnosis,
-            'uid': self.patient.uid
+            'uuid': self.patient.uid,
+            'info': self.info
         }
 
 # Common fields in each type of history item
@@ -59,6 +63,7 @@ class Move(HistoryItem):
     end_place = models.CharField(max_length=100)
     def dict(self):
         return {
+            'type': 'move',
             'start_time': str(self.start_time),
             'end_time': str(self.end_time),
             'start_place': self.start_place,
@@ -72,6 +77,7 @@ class Use(HistoryItem):
     people = models.ManyToManyField(Person)
     def dict(self):
         return {
+            'type': 'use',
             'start_time': str(self.start_time),
             'end_time': str(self.end_time),
             'location': self.location,
@@ -84,6 +90,7 @@ class Break(HistoryItem):
     pass
     def dict(self):
         return {
+            'type': 'break',
             'start_time': str(self.start_time),
             'end_time': str(self.end_time),
             'notes': [n.dict() for n in self.notes.all()]
