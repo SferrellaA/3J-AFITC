@@ -1,0 +1,245 @@
+<!DOCTYPE html><html>
+<head><title>Team 3J API Demo</title></head>
+<script type="text/javascript">
+	var baseURL = 'http://127.0.0.1:8000/api'
+	function addURL(url, field){
+		return url + document.getElementById(field).value
+	}
+	function queryURL(url) {
+		alert(url)
+	}
+</script>
+<body>
+	<h1>Team 3-J Item Tracking API "gui"</h1>
+	<p>A rough html testing tool for team 3-J's item tracking api</p>
+
+	<h2>Item Endpoints</h2>
+	<p>
+		Get a count of tracked items<br>
+		/item<br>
+		<input type="submit" value="submit" onclick="queryURL(baseURL+'/item')"/>
+	</p><p>
+		Track a new item<br>
+		/item/new
+		?name=<input id="1-name" type="text"></input>
+		&description=<input id="1-description" type="text"></input>
+		&location=<input id="1-location" type="text"></input><br>
+		<script type="text/javascript">
+			function item_new() {
+				var url = baseURL + '/item/new'
+				url = addURL(url+"?name=", "1-name")
+				url = addURL(url+"&description=", "1-description")
+				url = addURL(url+"&location=", "1-location")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_new()"/>
+	</p><p>
+		View a particular item<br>
+		/item/<input id="2-iid" type="text"></input><br>
+		<script type="text/javascript">
+			function item_get() {
+				var url = addURL(baseURL + "/item/", "2-iid")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_get()"/>
+	</p><p>
+		View all inforamtion on a particular item<br>
+		/item/<input id="5-iid" type="text"></input>
+		/all<br>
+		<script type="text/javascript">
+			function item_all() {
+				var url = addURL(baseURL + "/item/", "5-iid") + "/all"
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_all()"/>
+	</p><p>
+		View notes on an item<br>
+		/item/<input id="3-iid" type="text"></input>
+		/notes<br>
+		<script type="text/javascript">
+			function item_notes() {
+				var url = addURL(baseURL + "/item/", "3-iid") + "/notes"
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_notes()"/>
+	</p><p>
+		Add note to an item<br>
+		/item/<input id="12-iid" type="text"></input>
+		/add_note
+		&ampnote=<input id="12-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_add_note() {
+				var url = addURL(baseURL + "/item/", "12-iid")
+				url = addURL(url+"&note=", "12-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_add_note()"/>
+	</p><p>
+		Change the status of an item<br>
+		/item/<input id="13-iid" type="text"></input>
+		/change_status
+		&status=<input id="13-status" type="text"></input><br>
+		<script type="text/javascript">
+			function item_change_status() {
+				var url = addURL(baseURL + "/item/", "13-iid")
+				url = addURL(url+"&status=", "13-status")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_change_status()"/>
+	</p><p>
+		View the history of an item<br>
+		/item/<input id="4-iid" type="text"></input>
+		/history<br>
+		<script type="text/javascript">
+			function item_history() {
+				var url = addURL(baseURL + "/item/", "4-iid") + "/history"
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_history()"/>
+	</p><p>
+		Register the start of a move of an item<br>
+		/item/<input id="6-iid" type="text"></input>
+		/history/start_move
+		?start_place=<input id="6-start-place" type="text"></input>
+		&ampnote=<input id="6-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_start_move() {
+				var url = addURL(baseURL + "/item/", "6-iid") + "/history/start_move"
+				url = addURL(url+"?start_place=", "6-start-place")
+				url = addURL(url+"&note=", "6-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_start_move()"/>
+	</p><p>
+		Complete the move of an item<br>
+		/item/<input id="7-iid" type="text"></input>
+		/history/end_move
+		?end_place=<input id="7-end-place" type="text"></input>
+		&ampnote=<input id="7-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_end_move() {
+				var url = addURL(baseURL + "/item/", "7-iid") + "/history/end_move"
+				url = addURL(url+"?end_place=", "7-end-place")
+				url = addURL(url+"&note=", "7-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_end_move()"/>
+	</p><p>
+		Register the start of a use of an item<br>
+		/item/<input id="8-iid" type="text"></input>
+		/history/start_use
+		?location=<input id="8-location" type="text"></input>
+		&ampnote=<input id="8-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_start_use() {
+				var url = addURL(baseURL + "/item/", "8-iid") + "/history/start_use"
+				url = addURL(url+"?location=", "8-location")
+				url = addURL(url+"&note=", "8-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_start_use()"/>
+	</p><p>
+		Complete the use of an item<br>
+		/item/<input id="9-iid" type="text"></input>
+		/history/end_use
+		&ampnote=<input id="9-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_end_use() {
+				var url = addURL(baseURL + "/item/", "9-iid") + "/history/end_use"
+				url = addURL(url+"?note=", "9-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_end_use()"/>
+	</p><p>
+		Register the start of a break of an item<br>
+		/item/<input id="10-iid" type="text"></input>
+		/history/start_break
+		&ampnote=<input id="10-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_start_break() {
+				var url = addURL(baseURL + "/item/", "10-iid") + "/history/start_break"
+				url = addURL(url+"?note=", "10-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_start_break()"/>
+	</p><p>
+		Complete the break of an item<br>
+		/item/<input id="11-iid" type="text"></input>
+		/history/end_break
+		&ampnote=<input id="11-note" type="text"></input><br>
+		<script type="text/javascript">
+			function item_end_break() {
+				var url = addURL(baseURL + "/item/", "11-iid") + "/history/end_break"
+				url = addURL(url+"?note=", "11-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="item_end_break()"/>
+	</p>
+
+	<h2>Person Endpoints</h2>
+	<p>
+		Get a count of current (anonymous) users<br>
+		/person<br>
+		<input type="submit" value="submit" onclick="queryURL(baseURL+'/person')"/>
+	</p><p>
+		Register a new person<br>
+		/person/new
+		?uuid=<input id="p1-uuid" type="text"></input>
+		&ampnote=<input id="p1-note" type="text"></input><br>
+		<script type="text/javascript">
+			function person_new() {
+				var url = baseURL+"/person/new"
+				url = addURL(url+"?uuid=", "p1-uuid")
+				url = addURL(url+"&note=", "p1-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="person_new()"/>
+	</p><p>
+		Get the json of a particular person<br>
+		/person/<input id="1-uid" type="text"></input><br>
+		<input type="submit" value="submit" onclick="queryURL(addURL(baseURL+'/person/', '1-uid'))"/>
+	</p><p>
+		Get the notes of a person<br>
+		/person/<input id="2-uid" type="text"></input>/notes<br>
+		<input type="submit" value="submit" onclick="queryURL(addURL(baseURL+'/person/', '2-uid')+'/notes')"/>
+	</p><p>
+		Get the flags of a person<br>
+		/person/<input id="3-uid" type="text"></input>/flags<br>
+		<input type="submit" value="submit" onclick="queryURL(addURL(baseURL+'/person/', '3-uid')+'/flags')"/>
+	</p><p>
+		Add a new flag (diagnosis) to a person
+		/person/<input id="4-uid" type="text"></input>/flags/new
+		?diagnosis=<input id="p4-diagnosis" type="text"></input>
+		&ampinfo=<input id="p4-info" type="text"></input>
+		&ampnote=<input id="p4-note" type="text"></input><br>
+		<script type="text/javascript">
+			function person_new_flag() {
+				var url = addURL(baseURL+"/person/", "4-uid")+"/flags/new"
+				url = addURL(url+"?diagnosis=", "p4-diagnosis")
+				url = addURL(url+"&info=", "p4-info")
+				url = addURL(url+"&note=", "p4-note")
+				queryURL(url)
+			}
+		</script>
+		<input type="submit" value="submit" onclick="person_new_flag()"/>
+	</p><p>
+		Get all flags and notes on a person<br>
+		/person/<input id="5-uid" type="text"></input>/all<br>
+		<input type="submit" value="submit" onclick="queryURL(addURL(baseURL+'/person/', '5-uid')+'/all')"/>
+	</p>
+</body>
+</html
